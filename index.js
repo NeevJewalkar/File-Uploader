@@ -3,6 +3,7 @@ const prompts = require('prompts')
 const chalk = require('chalk')
 const net = require('net')
 const express = require('express')
+const path = require('path')
 
 let app = express()
 
@@ -25,7 +26,7 @@ let init = async() => {
             message: 'enter your directory'
         })
         let server = net.createServer((connection) => {
-            connection.write(fs.readFileSync(file.dir, 'utf8'))
+            connection.write(`!${path.basename(file.dir)}!\n` + fs.readFileSync(file.dir, 'utf8'))
             connection.pipe(connection)
         })
         app.get('/', (req, res) => {
@@ -33,7 +34,7 @@ let init = async() => {
         })
         server.listen({
             port: 8080,
-            host: ''
+            host: 'File-Uploader.neevcuber.repl.co'
         })
     }
 }
